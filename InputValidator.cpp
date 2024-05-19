@@ -44,7 +44,7 @@ Response<std::vector<std::string>> InputValidator::validateTime() {
   } else {
     std::vector<std::string> result;
     result.reserve(4);
-    for(int i = 0; i < str.size(); i += 3) {
+    for (int i = 0; i < str.size(); i += 3) {
       result.push_back(str.substr(i, 2));
     }
     return Response<std::vector<std::string>>{result};
@@ -52,49 +52,50 @@ Response<std::vector<std::string>> InputValidator::validateTime() {
 }
 
 Response<std::vector<Event>> InputValidator::validateEvents() {
+  std::string str;
+  std::getline(input_file, str);
   if (!input_file) {
-    error_message = "ERROR: file is empty";
+    error_message = "ERROR: the file is empty or the input data is insufficient";
     return Response<std::vector<Event>>();
   }
   std::vector<Event> result;
-  std::regex regex(rg2);
-  std::string str;
-  std::getline(input_file, str);
-  std::istringstream iss;
-  std::vector<std::string> parts;
+  std::vector<std::string> parts; // for parts of event
   parts.reserve(4);
+
+  std::regex regex(rg2);
+  std::istringstream iss;
   while (input_file) {
-    if(!std::regex_match(str, regex)) {
+    if (!std::regex_match(str, regex)) {
       error_message = "ERROR: invalid event format";
       return Response<std::vector<Event>>();
     }
     iss = std::istringstream(str);
-    std::string part;
-    while(iss >> part) {
+    for (std::string part; iss >> part;) {
       parts.push_back(part);
     }
-    Time time{(uint16_t)std::stoul(parts[0].substr(0, 2)), (uint16_t)std::stoul(parts[0].substr(3, 2))};
-    uint8_t type = std::stoul(parts[1]);
+    Time time{(uint16_t) std::stoul(parts[0].substr(0, 2)), (uint16_t) std::stoul(parts[0].substr(3, 2))};
+    uint16_t type = std::stoul(parts[1]);
     std::string name = parts[2];
     Event event;
-    if(parts.size() == 4) {
-      if(type != 2) {
+    if (parts.size() == 4) {
+      if (type != 2) {
         error_message = "ERROR: invalid event format";
         return Response<std::vector<Event>>();
       }
-      unsigned int table = std::stoul(parts[4]);
-      if(table > table_num) {
+      unsigned int table = std::stoul(parts[3]);
+      if (table > table_num) {
         error_message = "ERROR: incorrect table number in event";
         return Response<std::vector<Event>>();
       }
       event = EventTable{time, type, name, table};
-    }
-    else {
+    } else {
       event = Event{time, type, name};
     }
     result.push_back(event);
     parts.clear();
+    std::getline(input_file, str);
   }
+  return result;
 }
 
 void InputValidator::stop() {

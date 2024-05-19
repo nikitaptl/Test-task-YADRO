@@ -15,7 +15,7 @@ class Time {
 
 struct Event {
   Time time;
-  uint8_t type;
+  uint16_t type;
   std::string name;
 };
 

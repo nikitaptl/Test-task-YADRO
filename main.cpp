@@ -1,5 +1,3 @@
-#include <iostream>
-#include <fstream>
 #include "InputValidator.h"
 
 int main(int argc, char *argv[]) {
@@ -23,7 +21,6 @@ int main(int argc, char *argv[]) {
   } else {
     times = value;
   }
-  std::cout << (input_validator.input_file ? "HERE" : "NO ^(");
 
   unsigned int cost;
   if (auto [is_correct, value] = input_validator.validateInt(); !is_correct) {
@@ -34,13 +31,15 @@ int main(int argc, char *argv[]) {
   }
 
   std::vector<Event> events;
-  input_validator.validateEvents();
   if(auto [is_correct, value] = input_validator.validateEvents(); !is_correct) {
     std::cout << input_validator.error_message << std::endl;
     return 1;
   }
   else {
     events = value;
+  }
+  for(auto event : events) {
+    std::cout << event.time.hours << ":" << event.time.minutes << " " << event.type << " " << event.name << std::endl;
   }
   return 0;
 }
