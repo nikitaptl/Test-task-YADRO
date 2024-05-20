@@ -4,7 +4,9 @@ project(Test_task_YADRO)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Test_task_YADRO main.cpp
-        InputValidator.cpp
-        InputValidator.h
-        Entities.h
+        input_validator.cpp
+        input_validator.h
+        entities.h
+        computer_club.cpp
+        computer_club.h
 )
