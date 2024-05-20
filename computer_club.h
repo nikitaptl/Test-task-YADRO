@@ -46,6 +46,7 @@ class computer_club {
  public:
   computer_club();
   computer_club(unsigned int table_num, unsigned int cost, Time start_time, Time end_time);
+  ~computer_club();
   Response<Event> process_event(Event &event);
   Table *close();
 };

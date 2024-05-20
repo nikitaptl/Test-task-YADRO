@@ -19,6 +19,11 @@ computer_club::computer_club(unsigned int table_num, unsigned int cost, Time sta
                                                                                                               table_num) {
   tables = new Table[table_num];
 };
+
+computer_club::~computer_club() {
+  delete[] tables;
+}
+
 Response<Event> computer_club::process_event(Event &event) {
   switch (event.type) {
     Client *client; // for code readability
