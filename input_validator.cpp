@@ -96,7 +96,7 @@ Response<std::vector<Event>> input_validator::validateEvents() {
         error_message = INVALID_EVENT_FORMAT;
         return Response<std::vector<Event>>();
       }
-      event = EventTable{time, type, name, table};
+      event = Event{time, type, name, table};
     } else {
       event = Event{time, type, name};
     }

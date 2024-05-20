@@ -37,6 +37,12 @@ struct Event {
   Time time;
   uint16_t type;
   std::string name;
+  unsigned int table_num = 0;
+
+  Event() = default;
+  Event(Time time, uint16_t type, std::string name) : time(time), type(type), name(name) {};
+  Event(Time time, uint16_t type, std::string name, unsigned int table_num)
+      : time(time), type(type), name(name), table_num(table_num) {};
 };
 
 struct EventTable : public Event {
