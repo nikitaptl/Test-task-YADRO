@@ -27,15 +27,16 @@ struct Table {
 
 struct Client {
   std::string name;
-  Table *curr_table;
+  Table *curr_table = nullptr;
 
   Client() = default;
-  Client(std::string name) : name(name), curr_table(nullptr) {}
+  Client(std::string name) : name(name) {}
 };
 
 class computer_club {
  private:
   unsigned int table_num;
+  unsigned int free_tables;
   unsigned int cost;
   Time start_time;
   Time end_time;
@@ -45,7 +46,8 @@ class computer_club {
  public:
   computer_club();
   computer_club(unsigned int table_num, unsigned int cost, Time start_time, Time end_time);
-  Response<Event> process_event(Event& event);
+  Response<Event> process_event(Event &event);
+  Table *close();
 };
 
 #endif //TEST_TASK_YADRO__COMPUTER_CLUB_H_

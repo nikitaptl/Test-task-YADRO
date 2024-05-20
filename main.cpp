@@ -32,12 +32,25 @@ int main(int argc, char *argv[]) {
   }
 
   std::vector<Event> events;
-  if(auto [is_correct, value] = input_validator.validateEvents(); !is_correct) {
+  std::cout << times.first.to_string() << std::endl;
+  if (auto [is_correct, value] = input_validator.validateEvents(); !is_correct) {
     std::cout << input_validator.error_message << std::endl;
     return 1;
-  }
-  else {
+  } else {
     events = value;
+  }
+
+  computer_club club(table_num, cost, times.first, times.second);
+  for (auto event : events) {
+    std::cout << event.to_string() << std::endl;
+    if (auto [is_new, new_event] = club.process_event(event); is_new) {
+      std::cout << new_event.to_string() << std::endl;
+    }
+  }
+  std::cout << times.second.to_string() << std::endl;
+  Table* tables = club.close();
+  for(int i = 0; i < table_num; i++) {
+    std::cout << std::format("{} {} {}", i + 1, tables[i].total_revenue, tables[i].total_time.to_string()) << std::endl;
   }
   return 0;
 }

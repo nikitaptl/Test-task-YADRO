@@ -9,7 +9,7 @@ struct Time {
   uint16_t minutes;
 
   Time() : hours(0), minutes(0) {}
-  Time(uint16_t minutes) : hours(minutes / 60), minutes(minutes) {}
+  Time(uint16_t minutes) : hours(minutes / 60), minutes(minutes % 60) {}
   Time(uint16_t hours, uint16_t minutes) : hours(hours), minutes(minutes) {}
 
   uint16_t get_minutes() const {
@@ -43,6 +43,13 @@ struct Event {
   Event(Time time, uint16_t type, std::string name) : time(time), type(type), name(name) {};
   Event(Time time, uint16_t type, std::string name, unsigned int table_num)
       : time(time), type(type), name(name), table_num(table_num) {};
+
+  std::string to_string() const {
+    if(table_num == 0) {
+      return std::format("{} {} {}", time.to_string(), type, name);
+    }
+    return std::format("{} {} {} {}", time.to_string(), type, name, table_num);
+  }
 };
 
 struct EventTable : public Event {
