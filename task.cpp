@@ -2,6 +2,7 @@
 #include "computer_club.h"
 
 int main(int argc, char *argv[]) {
+<<<<<<< HEAD:main.cpp
   std::string file_path;
   if (argc != 2) {
     file_path = "../test_file.txt";
@@ -9,6 +10,13 @@ int main(int argc, char *argv[]) {
     file_path = argv[1];
   }
   input_validator input_validator(file_path);
+=======
+  if(argc != 2) {
+    std::cout << "ERROR: invalid number of arguments. Write only path to input file." << std::endl;
+    return 1;
+  }
+  input_validator input_validator(argv[1]);
+>>>>>>> develop:task.cpp
   if (!input_validator.is_open) {
     std::cout << "ERROR: can not open file" << std::endl;
   }
@@ -56,7 +64,11 @@ int main(int argc, char *argv[]) {
   std::cout << times.second.to_string() << std::endl;
   Table *tables = club.close();
   for (int i = 0; i < table_num; i++) {
+<<<<<<< HEAD:main.cpp
     std::cout << std::format("{} {} {}", i + 1, tables[i].total_revenue, tables[i].total_time.to_string()) << std::endl;
+=======
+    std::cout << i + 1 << " " << tables[i].total_revenue << " " << tables[i].total_time.to_string() << std::endl;
+>>>>>>> develop:task.cpp
   }
   return 0;
 }
