@@ -2,7 +2,13 @@
 #include "computer_club.h"
 
 int main(int argc, char *argv[]) {
-  input_validator input_validator("../test_file.txt");
+  std::string file_path;
+  if (argc != 2) {
+    file_path = "../test_file.txt";
+  } else {
+    file_path = argv[1];
+  }
+  input_validator input_validator(file_path);
   if (!input_validator.is_open) {
     std::cout << "ERROR: can not open file" << std::endl;
   }
@@ -48,8 +54,8 @@ int main(int argc, char *argv[]) {
     }
   }
   std::cout << times.second.to_string() << std::endl;
-  Table* tables = club.close();
-  for(int i = 0; i < table_num; i++) {
+  Table *tables = club.close();
+  for (int i = 0; i < table_num; i++) {
     std::cout << std::format("{} {} {}", i + 1, tables[i].total_revenue, tables[i].total_time.to_string()) << std::endl;
   }
   return 0;
