@@ -1,5 +1,6 @@
 #include <memory>
-#include <format>
+#include <sstream>
+#include <iomanip>
 
 #ifndef TEST_TASK_YADRO__ENTITIES_H_
 #define TEST_TASK_YADRO__ENTITIES_H_
@@ -29,7 +30,9 @@ struct Time {
   }
 
   std::string to_string() const {
-    return std::format("{:02d}:{:02d}", hours, minutes);
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(2) << hours << ":" << std::setfill('0') << std::setw(2) << minutes;
+    return oss.str();
   }
 };
 
@@ -45,15 +48,13 @@ struct Event {
       : time(time), type(type), name(name), table_num(table_num) {};
 
   std::string to_string() const {
-    if(table_num == 0) {
-      return std::format("{} {} {}", time.to_string(), type, name);
+    std::ostringstream oss;
+    oss << time.to_string() << " " << type << " " << name;
+    if (table_num != 0) {
+      oss << " " << table_num;
     }
-    return std::format("{} {} {} {}", time.to_string(), type, name, table_num);
+    return oss.str();
   }
-};
-
-struct EventTable : public Event {
-  unsigned int table_num;
 };
 
 template<typename T>
